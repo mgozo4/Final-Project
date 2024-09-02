@@ -10,4 +10,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+  <div>
+        <ul>
+            <li><a href="${contextPath}/home">홈</a></li>
+            <c:choose>
+                <c:when test="${not empty sessionScope.member}">
+                    <li>
+                        <a href="${contextPath}/profile">${sessionScope.member.name}</a>님 방가 //(- -)
+                    </li>
+                    <li>
+                        <a href="${contextPath}/logout">로그아웃</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="${contextPath}/member/login">로그인</a></li>
+                    <li><a href="${contextPath}/member/register">회원가입</a></li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+    </div>
+</body>
+</html>

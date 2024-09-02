@@ -6,7 +6,14 @@
 
 
 
-
+<form>
+	<div>
+		아이디 : <input /><br/>
+		비밀번호 : <input /><br/>
+		비밀번호 확인 : <input /><br/>
+		
+	</div>
+</form>
 
 
 

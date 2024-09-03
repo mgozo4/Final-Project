@@ -17,11 +17,11 @@
             <p><strong>Type:</strong> ${member.type}</p>
         </div>
         <div>
-            <a href="${pageContext.request.contextPath}/update">프로필 수정</a>
+            <a href="${pageContext.request.contextPath}/member/update">프로필 수정</a>
         </div>
     </c:if>
     <c:if test="${empty member}">
-        <p>Please <a href="${pageContext.request.contextPath}/login">login</a> 프로필 보여줘</p>
+        <p>Please <a href="${pageContext.request.contextPath}/member/login">login</a> 프로필 보여줘</p>
     </c:if>
 </body>
 </html>

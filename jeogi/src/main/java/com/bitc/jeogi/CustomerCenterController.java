@@ -21,18 +21,14 @@ public class CustomerCenterController {
 	
     @GetMapping("/announcement")
     public void showAnnouncement() {
-   // /WEB-INF/views/customer_center/announcement.jsp로 포워딩
     }
 
     @GetMapping("/chatbot")
-    public void showChatbot() {// /WEB-INF/views/customer_center/chatbot.jsp로 포워딩
-    }
+    public void showChatbot() {}
 
     @GetMapping("/customer-service")
-    public void showCustomerService() {// /WEB-INF/views/customer_center/customer-service.jsp로 포워딩
-    }
+    public void showCustomerService() { }
 
     @GetMapping("/faq")
-    public void showFaq() {// /WEB-INF/views/customer_center/faq.jsp로 포워딩
-    }
+    public void showFaq() {}
 }

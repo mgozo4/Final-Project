@@ -41,7 +41,7 @@
         </div>
     </form>
     <div>
-        <p>계정을 가지고 계신가요? <a href="${pageContext.request.contextPath}/login">로그인</a>하세요.</p>
+        <p>계정을 가지고 계신가요? <a href="${pageContext.request.contextPath}/member/login">로그인</a>하세요.</p>
     </div>
 </body>
 </html>

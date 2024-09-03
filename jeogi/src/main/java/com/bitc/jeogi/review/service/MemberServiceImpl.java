@@ -37,7 +37,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void registerMember(MemberDTO member) {
+    public boolean registerMember(MemberDTO member) {
         memberDAO.insertMember(member);
+		return false;
     }
 }

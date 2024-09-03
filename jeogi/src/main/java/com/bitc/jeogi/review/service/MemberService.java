@@ -6,5 +6,5 @@ public interface MemberService {
     MemberDTO login(String id, String password);
     void updateMember(MemberDTO member);
     MemberDTO getMemberById(int userId);
-    void registerMember(MemberDTO member);
+    boolean registerMember(MemberDTO member);
 }

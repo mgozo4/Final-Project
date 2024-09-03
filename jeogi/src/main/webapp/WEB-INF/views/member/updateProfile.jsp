@@ -9,7 +9,7 @@
 <body>
     <h2>프로필 수정</h2>
     <c:if test="${not empty member}">
-        <form action="${pageContext.request.contextPath}/update" method="post">
+        <form action="${pageContext.request.contextPath}/member/updateProfile" method="post">
             <input type="hidden" name="userId" value="${member.userId}">
             <div>
                 <label for="id">사용자 ID:</label>
@@ -44,7 +44,7 @@
         </form>
     </c:if>
     <c:if test="${empty member}">
-        <p>로그인 후 프로필을 수정할 수 있습니다. <a href="${pageContext.request.contextPath}/login">로그인</a>하세요.</p>
+        <p>로그인 후 프로필을 수정할 수 있습니다. <a href="${pageContext.request.contextPath}/member/login">로그인</a>하세요.</p>
     </c:if>
 </body>
 </html>

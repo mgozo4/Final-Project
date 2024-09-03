@@ -10,7 +10,7 @@
     <h2>홈 페이지에 오신 것을 환영합니다</h2>
     <c:if test="${not empty member}">
         <p>안녕하세요, ${member.name}님! ${member.type}으로 로그인 중입니다.</p>
-        <a href="${pageContext.request.contextPath}/profile">프로필 보기</a>
+        <a href="${pageContext.request.contextPath}/member/profile">프로필 보기</a>
     </c:if>
     <c:if test="${empty member}">
         <p>로그인이 필요합니다. <a href="${pageContext.request.contextPath}/member/login">로그인</a> 또는 <a href="${pageContext.request.contextPath}/member/register">회원 가입</a>을 진행하세요.</p>

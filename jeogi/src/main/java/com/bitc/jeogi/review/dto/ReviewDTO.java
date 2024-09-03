@@ -1,15 +1,17 @@
 package com.bitc.jeogi.review.dto;
 
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class ReviewDTO {
     private int reviewId;
-    private int accommodationId; // 숙소 ID
-    private int userId; // 사용자 ID
-    private int rating; // 평가 점수
-    private String content; // 리뷰 내용
-    private LocalDateTime createdAt; // 생성 일시
-    private String userName; // 사용자 이름
+    private int userId;
+    private int accommodationId;
+    private int rating;
+    private String content;
+    private LocalDateTime createdAt;
+    private String images; 
 }

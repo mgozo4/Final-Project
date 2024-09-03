@@ -7,13 +7,13 @@ import org.apache.ibatis.annotations.*;
 public interface MemberDAO {
 
     @Select("SELECT * FROM user WHERE id = #{id}")
-    MemberDTO findById(@Param("id") String id);
+    MemberDTO findById(String id);
 
     @Select("SELECT * FROM user WHERE email = #{email}")
-    MemberDTO findByEmail(@Param("email") String email);
+    MemberDTO findByEmail(String email);
 
     @Select("SELECT * FROM user WHERE user_id = #{userId}")
-    MemberDTO getMemberById(@Param("userId") int userId);
+    MemberDTO getMemberById( int userId);
 
     @Insert("INSERT INTO user (id, email, password, name, phone, type) " +
             "VALUES (#{id}, #{email}, #{password}, #{name}, #{phone}, #{type})")

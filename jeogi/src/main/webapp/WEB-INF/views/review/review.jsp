@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>리뷰 목록</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -42,7 +42,7 @@
         <h2 class="mb-4">리뷰 목록</h2>
 
         <!-- 리뷰 작성 버튼 -->
-        <a href="<c:url value='/review/create?accommodationId=1&userId=1' />" class="btn btn-primary mb-4">리뷰 작성</a>
+        <a href="<c:url value='/review/createReview?accommodationId=${accommodationId}&userId=${member.id}' />" class="btn btn-primary mb-4">리뷰 작성</a>
 
         <!-- 리뷰 목록 -->
         <div id="reviewList">
@@ -55,7 +55,7 @@
                     <p>${review.content}</p>
                     <span class="review-rating">평점: ${review.rating}</span>
                     <div class="review-actions">
-                        <a href="<c:url value='/review/detail?reviewId=${review.id}' />" class="btn btn-info btn-sm">상세보기</a>
+                        <a href="<c:url value='/review/reviewDetail?reviewId=${review.id}' />" class="btn btn-info btn-sm">상세보기</a>
                     </div>
                     <div class="comments">
                         <c:forEach items="${review.comments}" var="comment">
@@ -64,7 +64,7 @@
                             </div>
                         </c:forEach>
                         <div class="comment-form">
-                            <form action="<c:url value='/comment/create' />" method="post">
+                            <form action="<c:url value='/comment/createReview' />" method="post">
                                 <input type="hidden" name="reviewId" value="${review.id}" />
                                 <input type="text" name="content" class="form-control" placeholder="댓글 작성하기..." required />
                                 <button type="submit" class="btn btn-primary mt-2">댓글 추가</button>
@@ -80,19 +80,19 @@
             <ul class="pagination">
                 <c:if test="${pageNumber > 1}">
                     <li class="page-item">
-                        <a class="page-link" href="?accommodationId=${accommodationId}&page=${pageNumber - 1}" aria-label="Previous">
+                        <a class="page-link" href="<c:url value='/review/reviewList?accommodationId=${accommodationId}&page=${pageNumber - 1}' />" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 </c:if>
-                <c:forEach begin="1" end="${totalPages}" var="i">
+                <c:forEach var="i" begin="1" end="${totalPages}">
                     <li class="page-item ${i == pageNumber ? 'active' : ''}">
-                        <a class="page-link" href="?accommodationId=${accommodationId}&page=${i}">${i}</a>
+                        <a class="page-link" href="<c:url value='/review/reviewList?accommodationId=${accommodationId}&page=${i}' />">${i}</a>
                     </li>
                 </c:forEach>
                 <c:if test="${pageNumber < totalPages}">
                     <li class="page-item">
-                        <a class="page-link" href="?accommodationId=${accommodationId}&page=${pageNumber + 1}" aria-label="Next">
+                        <a class="page-link" href="<c:url value='/review/reviewList?accommodationId=${accommodationId}&page=${pageNumber + 1}' />" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -101,6 +101,7 @@
         </nav>
     </div>
 
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

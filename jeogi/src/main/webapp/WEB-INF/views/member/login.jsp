@@ -8,7 +8,7 @@
 </head>
 <body>
     <h2>로그인</h2>
-    <form action="${pageContext.request.contextPath}/login" method="post">
+    <form action="${pageContext.request.contextPath}/member/login" method="post">
         <div>
             <label for="id">사용자 ID:</label>
             <input type="text" id="id" name="id" required>
@@ -22,7 +22,7 @@
         </div>
     </form>
     <div>
-        <p>계정이 없으신가요? <a href="${pageContext.request.contextPath}/register">계정 등록</a>을 진행하세요.</p>
+        <p>계정이 없으신가요? <a href="${pageContext.request.contextPath}/member/register">계정 등록</a>을 진행하세요.</p>
     </div>
 </body>
 </html>

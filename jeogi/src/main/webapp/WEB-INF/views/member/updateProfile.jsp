@@ -10,7 +10,7 @@
     <h2>프로필 수정</h2>
     <c:if test="${not empty member}">
         <form action="${pageContext.request.contextPath}/member/updateProfile" method="post">
-            <input type="hidden" name="userId" value="${member.userId}">
+            <input type="hidden" name="user_id" value="${member.user_id}">
             <div>
                 <label for="id">사용자 ID:</label>
                 <input type="text" id="id" name="id" value="${member.id}" readonly>

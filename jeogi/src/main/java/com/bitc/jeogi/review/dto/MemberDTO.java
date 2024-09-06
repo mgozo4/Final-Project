@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberDTO {
-    private int userId;       // 사용자 고유 ID
+    private int user_id;       // 사용자 고유 ID
     private String id;        // 사용자 ID
     private String email;      // 사용자 이메일
     private String password;   // 사용자 비밀번호

@@ -1,7 +1,6 @@
 package com.bitc.jeogi.review.service;
 
 import com.bitc.jeogi.review.dao.MemberDAO;
-import com.bitc.jeogi.review.dao.ReviewDAO;
 import com.bitc.jeogi.review.dto.MemberDTO;
 import com.bitc.jeogi.review.service.MemberService;
 
@@ -32,8 +31,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO getMemberById(int userId) {
-        return memberDAO.getMemberById(userId);
+    public MemberDTO getMemberById(int use_id) {
+        return memberDAO.getMemberById(use_id);
     }
 
     @Override

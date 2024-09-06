@@ -1,40 +1,56 @@
 package com.bitc.jeogi.review.service;
 
-import com.bitc.jeogi.review.dao.ReviewDAO;
-import com.bitc.jeogi.review.dto.ReviewDTO;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bitc.jeogi.common.util.Criteria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.bitc.jeogi.common.util.PageMaker;
+import com.bitc.jeogi.review.dao.ReviewDAO;
+import com.bitc.jeogi.vo.ReviewVO;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    @Autowired
     private final ReviewDAO reviewDAO;
-
+    @Transactional
     @Override
-    public void createReview(ReviewDTO review) {
-        reviewDAO.insertReview(review);
+    public void write(ReviewVO review) throws Exception {
+        reviewDAO.insert(review);
+    }
+    @Override
+    public ReviewVO detail(int review_id) throws Exception {
+        return reviewDAO.selectById(review_id);
     }
 
     @Override
-    public List<ReviewDTO> getReviewsByAccommodationId(int accommodationId, Criteria criteria) {
-        return reviewDAO.selectReviewsByAccommodationId(accommodationId, criteria);
+    public String update(ReviewVO review) throws Exception {
+        reviewDAO.update(review);
+        return "리뷰가 성공적으로 수정되었습니다.";
     }
 
     @Override
-    public int getReviewCountByAccommodationId(int accommodationId) {
-        return reviewDAO.countReviewsByAccommodationId(accommodationId);
+    public String delete(int review_id) throws Exception {
+        reviewDAO.delete(review_id);
+        return "리뷰가 성공적으로 삭제되었습니다.";
     }
 
     @Override
-    public ReviewDTO getReviewById(int reviewId) {
-        return reviewDAO.selectReviewById(reviewId);
+    public List<ReviewVO> listCriteria(int accommodation_id, Criteria cri) throws Exception {
+        return reviewDAO.selectList(accommodation_id, cri);
+    }
+
+    @Override
+    public PageMaker getPageMaker(Criteria cri, int totalCount) throws Exception {
+        return new PageMaker(cri, totalCount);
+    }
+
+    @Override
+    public int countByAccommodationId(int accommodation_id) throws Exception {
+        return reviewDAO.countByAccommodationId(accommodation_id);
     }
 }

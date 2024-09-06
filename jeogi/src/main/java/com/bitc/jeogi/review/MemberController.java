@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -44,21 +45,14 @@ public class MemberController {
      * 로그인 요청을 처리합니다.
      */
     @PostMapping("/login")
-    public String login(String id, String password, HttpSession session) {
+    public String login(String id, String password, HttpSession session, RedirectAttributes redirectAttributes) {
         MemberDTO member = memberService.login(id, password);
         if (member != null) {
             session.setAttribute("member", member);
-            return "redirect:/member/home"; // 로그인 성공 후 홈 페이지로 리디렉션
+            return "redirect:/member/home";
         } else {
-            try {
-                // 로그인 실패 메시지를 URL 인코딩
-                String encodedMessage = URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8.toString());
-                return "redirect:/member/login?msg=" + encodedMessage;
-            } catch (UnsupportedEncodingException e) {
-                // URL 인코딩 실패 처리
-                e.printStackTrace();
-                return "redirect:/member/login";
-            }
+            redirectAttributes.addFlashAttribute("msg", "로그인 실패");
+            return "redirect:/member/login";
         }
     }
 
@@ -77,11 +71,11 @@ public class MemberController {
     public String registerMember(MemberDTO member, Model model) {
     	boolean isJoin = memberService.registerMember(member);
         if (isJoin) {
-            model.addAttribute("msg", "회원가입 성공!"); // 회원가입 성공 메시지 추가
-            return "redirect:/member/login"; // 회원가입 성공 시 로그인 페이지로 리디렉션
+            model.addAttribute("msg", "회원가입 성공!");
+            return "redirect:/member/login"; 
         } else {
-            model.addAttribute("msg", "회원가입 실패!"); // 회원가입 실패 메시지 추가
-            return "member/register"; // 회원가입 실패 시 회원가입 페이지로 이동
+            model.addAttribute("msg", "회원가입 실패!"); 
+            return "member/register";
         }
     }
 
@@ -118,8 +112,9 @@ public class MemberController {
     @PostMapping("/updateProfile")
     public String updateMember(MemberDTO member, HttpSession session) {
         memberService.updateMember(member);
-        session.setAttribute("member", memberService.getMemberById(member.getUserId()));
-        return "redirect:/member/profile"; // 업데이트 후 프로필 페이지로 리디렉션
+        int memberId = Integer.parseInt(member.getId()); 
+        session.setAttribute("member", memberService.getMemberById(memberId));
+        return "redirect:/member/profile";
     }
 
 

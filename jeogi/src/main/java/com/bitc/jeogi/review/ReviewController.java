@@ -1,131 +1,126 @@
 package com.bitc.jeogi.review;
 
-import com.bitc.jeogi.review.dto.MemberDTO;
-import com.bitc.jeogi.review.dto.ReviewDTO;
-import com.bitc.jeogi.review.service.ReviewService;
-import com.bitc.jeogi.common.util.Criteria;
-import com.bitc.jeogi.common.util.PageMaker;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
+import com.bitc.jeogi.common.util.Criteria;
+import com.bitc.jeogi.common.util.PageMaker;
+import com.bitc.jeogi.review.service.ReviewService;
+import com.bitc.jeogi.vo.ReviewVO;
+import com.bitc.jeogi.review.dto.MemberDTO;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/review")
+@RequestMapping("review/")
+@Slf4j
 @RequiredArgsConstructor
 public class ReviewController {
-	private static final Logger LOGGER = Logger.getLogger(ReviewController.class.getName());
-	private final ReviewService reviewService;
-	private MemberDTO getAuthenticatedMember(HttpSession session) {
-		return (MemberDTO) session.getAttribute("member");
-	}
-	private String redirectToLoginWithMessage(HttpSession session, String message) {
-		session.setAttribute("loginMessage", message);
-		return "redirect:/member/login";
-	}
-	@GetMapping("/createReview")
-	public String showReviewForm(Integer accommodationId, Integer userId, Model model, HttpSession session) {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		if (member == null) {
-			return redirectToLoginWithMessage(session, "로그인이 필요합니다.");
-		}
-		 model.addAttribute("member", member);
-		    model.addAttribute("accommodationId", accommodationId);
-		    model.addAttribute("userId", userId);                  
-		    return "review/createReview";
-	}
-	@PostMapping("/createReview")
-	public String createReview(Integer rating, String content, Integer accommodationId, Integer userId, String images,
-			HttpSession session) {
-		MemberDTO member = getAuthenticatedMember(session);
-		if (member == null) {
-			return redirectToLoginWithMessage(session, "로그인이 필요합니다.");
-		}
 
-		if (accommodationId == null || userId == null) {
-			LOGGER.warning(String.format("에러: 숙소 ID 또는 사용자 ID가 없습니다. accommodationId: %d, userId: %d", accommodationId, userId));
-			return "redirect:/review/createReview?error=missingId";
-		}
+    private final ReviewService reviewService;
 
-		ReviewDTO review = new ReviewDTO();
-		review.setAccommodationId(accommodationId);
-		review.setUserId(userId);
-		review.setRating(Optional.ofNullable(rating).orElse(0));
-		review.setContent(content);
-		review.setImages(images);
+    /**
+     * 페이징 처리 된 리뷰 목록 페이지
+     */
+    @GetMapping("list")
+    public void listPage(Integer accommodation_id, Criteria cri, Model model) throws Exception {
+        log.info("리뷰 목록 페이지 요청됨");
+        if (accommodation_id == null) {
+            log.warn("Accommodation ID가 제공되지 않았습니다.");
+            return;
+        }
 
-		reviewService.createReview(review);
+        List<ReviewVO> reviews = reviewService.listCriteria(accommodation_id, cri);
+        model.addAttribute("list", reviews);
+        int totalCount = reviewService.countByAccommodationId(accommodation_id);
+        PageMaker pageMaker = reviewService.getPageMaker(cri, totalCount);
+        model.addAttribute("pageMaker", pageMaker);
+    }
+    @GetMapping("write")
+    public void write() throws Exception {
+        log.info("리뷰작성 페이지 요청됨");
+    }
 
-		return "redirect:/review/reviewList?accommodationId=" + accommodationId;
-	}
+    /**
+     * 리뷰 등록 요청 처리
+     */
+    @PostMapping("write")
+    public String write(ReviewVO review, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+        MemberDTO member = (MemberDTO) session.getAttribute("member");
+        if (member == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/member/login";
+        }
+        review.setUser_id(member.getUser_id()); 
+        try {
+            reviewService.write(review);
+            redirectAttributes.addFlashAttribute("msg", "리뷰가 성공적으로 등록되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg", "리뷰 등록 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
 
-	@GetMapping("/reviewList")
-	public String listReviews(Integer accommodationId, Integer pageNumber, HttpSession session, Model model) {
-		if (accommodationId == null || accommodationId <= 0) {
-			System.out.println("에러: 유효하지 않은 숙소 ID입니다. accommodationId: " + accommodationId);
-			return "redirect:/review/reviewList?error=invalidAccommodationId";
-		}
+        return "redirect:/review/list?accommodation_id=" + review.getAccommodation_id(); 
+    }
+    /**
+     * 리뷰 상세보기 페이지
+     */
+    @GetMapping("detail")
+    public String detail(int review_id, Model model) throws Exception {
+        log.info("리뷰 상세보기 페이지 요청됨: review_id = {}", review_id);
 
-		Criteria criteria = new Criteria(Optional.ofNullable(pageNumber).orElse(1), 10);
-		int totalCount = reviewService.getReviewCountByAccommodationId(accommodationId);
-		PageMaker pageMaker = new PageMaker(criteria, totalCount);
+        // 리뷰 상세 조회
+        ReviewVO vo = reviewService.detail(review_id);
+        model.addAttribute("review", vo);
+        return "review/detail";
+    }
 
-		List<ReviewDTO> reviews = reviewService.getReviewsByAccommodationId(accommodationId, criteria);
-		MemberDTO member = getAuthenticatedMember(session);
-		if (member != null) {
-			model.addAttribute("member", member);
-		}
+    /**
+     * 리뷰 수정 페이지 요청 - 리뷰 수정 화면 출력
+     */
+    @GetMapping("update")
+    public String update(int review_id, Model model) throws Exception {
+        log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);
 
+        // 리뷰 상세 조회
+        ReviewVO vo = reviewService.detail(review_id);
+        model.addAttribute("review", vo);
+        return "review/update";
+    }
 
-		model.addAttribute("reviews", reviews);
-		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("accommodationId", accommodationId);
-		return "review/reviewList";
-	}
-	@GetMapping("/reviewDetail")
-	public String reviewDetail(Integer reviewId, HttpSession session, Model model) {
-		if (reviewId == null || reviewId <= 0) {
-			LOGGER.warning("에러: 유효하지 않은 리뷰 ID입니다. reviewId: " + reviewId);
-			return "redirect:/review/reviewList?error=invalidReviewId";
-		}
-		ReviewDTO review = reviewService.getReviewById(reviewId);
-		MemberDTO member = getAuthenticatedMember(session);
-		if (member != null) {
-			model.addAttribute("member", member);
-		}
+    /**
+     * 리뷰 수정 처리 요청
+     */
+    @PostMapping("update")
+    public String update(ReviewVO vo, RedirectAttributes rttr) throws Exception {
+        log.info("리뷰 수정 요청됨: ReviewVO = {}", vo);
 
-		model.addAttribute("review", review);
-		return "review/reviewDetail";
-	}
-	@GetMapping("/review")
-	public String showReviewPage(Integer accommodationId, Integer pageNumber, HttpSession session, Model model) {
-		if (accommodationId != null && accommodationId > 0) {
-			Criteria criteria = new Criteria(Optional.ofNullable(pageNumber).orElse(1), 10);
-			List<ReviewDTO> reviews = reviewService.getReviewsByAccommodationId(accommodationId, criteria);
-			int totalReviews = reviewService.getReviewCountByAccommodationId(accommodationId);
+        // 리뷰 수정 처리
+        String result = reviewService.update(vo);
+        rttr.addAttribute("review_id", vo.getReview_id());
+        rttr.addFlashAttribute("msg", result);
+        return "redirect:/review/detail";
+    }
 
-			PageMaker pageMaker = new PageMaker(criteria, totalReviews);
-			model.addAttribute("reviews", reviews);
-			model.addAttribute("pageNumber", pageNumber);
-			model.addAttribute("totalPages", pageMaker.getMaxPage());
-			model.addAttribute("accommodationId", accommodationId);
-		}
+    /**
+     * 리뷰 삭제 처리
+     */
+    @GetMapping("delete")
+    public String remove(int review_id, RedirectAttributes rttr) throws Exception {
+        log.info("리뷰 삭제 요청됨: review_id = {}", review_id);
 
-		MemberDTO member = getAuthenticatedMember(session);
-		if (member != null) {
-			model.addAttribute("member", member);
-		}
-		return "review/review";
-	}
+        // 리뷰 삭제 처리
+        String msg = reviewService.delete(review_id);
+        rttr.addFlashAttribute("msg", msg);
+        return "redirect:/review/list";
+    }
 }

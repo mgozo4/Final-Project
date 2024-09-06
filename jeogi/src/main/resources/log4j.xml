@@ -12,7 +12,11 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.bitc.jeogi">
+<<<<<<< HEAD
 		<level value="debug" />
+=======
+		<level value="info" />
+>>>>>>> 2d69adf3035f88cb30d10e842cf759f106645f91
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

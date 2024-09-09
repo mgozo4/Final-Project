@@ -20,14 +20,14 @@
         </thead>
         <tbody>
             <c:forEach var="review" items="${reviews}">
-                <tr>
+                <tr onclick="detail(${review.review_id})">
                     <td>${review.review_id}</td>
                     <td>${review.user_id}</td>
                     <td>${review.rating}</td>
                     <td>${fn:length(review.content) > 50 ? fn:substring(review.content, 0, 50) + '...' : review.content}</td>
-                    <td><img src="${review.images}" alt="리뷰 이미지" class="img-fluid" style="width: 100px;" /></td>
+<%--                     <td><img src="${review.images}" alt="리뷰 이미지" class="img-fluid" style="width: 100px;" /></td> --%>
                     <td>${review.created_at}</td>
-                    <td class="text-center"><a href="${pageContext.request.contextPath}/review/edit?review_id=${review.review_id}" class="btn btn-warning btn-sm">수정</a></td>
+                    <td class="text-center"><a href="${pageContext.request.contextPath}/review/update?review_id=${review.review_id}" class="btn btn-warning btn-sm">수정</a></td>
                     <td class="text-center">
                         <button class="btn btn-danger btn-sm" onclick="confirmDelete('${review.review_id}')">삭제</button>
                     </td>
@@ -40,40 +40,14 @@
         <a href="${pageContext.request.contextPath}/review/write" class="btn btn-primary">리뷰 작성하기</a>
     </div>
 
-    <!-- Pagination -->
-    <c:if test="${pm != null}">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <c:if test="${pm.startPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/review/list?pageNum=${pm.startPage - 1}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo; 이전</span>
-                        </a>
-                    </li>
-                </c:if>
-                <c:forEach var="i" begin="${pm.startPage}" end="${pm.endPage}">
-                    <li class="page-item ${i == pm.pageNum ? 'active' : ''}">
-                        <a class="page-link" href="${pageContext.request.contextPath}/review/list?pageNum=${i}">${i}</a>
-                    </li>
-                </c:forEach>
-                <c:if test="${pm.endPage < pm.totalPageCount}">
-                    <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/review/list?pageNum=${pm.endPage + 1}" aria-label="Next">
-                            <span aria-hidden="true">다음 &raquo;</span>
-                        </a>
-                    </li>
-                </c:if>
-            </ul>
-        </nav>
-    </c:if>
 </div>
 
 <script>
-    function confirmDelete(reviewId) {
-        if (confirm('정말 삭제하시겠습니까?')) {
-            window.location.href = '${pageContext.request.contextPath}/review/delete?review_id=' + reviewId;
-        }
+
+    function detail(review_id) {
+            window.location.href = '${pageContext.request.contextPath}/review/detail?review_id=' + review_id;
     }
+
 </script>
 
 <%@ include file="../common/footer.jsp"%>

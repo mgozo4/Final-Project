@@ -66,7 +66,7 @@
         </div>
 
         <div class="review-actions my-4">
-            <a href="${pageContext.request.contextPath}/review/edit?review_id=${review.review_id}" class="btn btn-warning">수정</a>
+            <a href="${pageContext.request.contextPath}/review/update?review_id=${review.review_id}" class="btn btn-warning">수정</a>
             <form action="${pageContext.request.contextPath}/review/delete" method="post" style="display:inline;">
                 <input type="hidden" name="review_id" value="${review.review_id}" />
                 <input type="submit" value="삭제" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');"/>

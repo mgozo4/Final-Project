@@ -40,8 +40,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewVO> listCriteria(int accommodation_id, Criteria cri) throws Exception {
-        return reviewDAO.selectList(accommodation_id, cri);
+    public List<ReviewVO> listCriteria(Criteria cri) throws Exception {
+        return reviewDAO.selectList(cri); 
     }
 
     @Override
@@ -50,7 +50,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public int countByAccommodationId(int accommodation_id) throws Exception {
-        return reviewDAO.countByAccommodationId(accommodation_id);
+    public int countByAccommodationId() throws Exception {
+        return reviewDAO.countByAccommodationId();
     }
+    @Override
+	public List<ReviewVO> getAllList() {
+    	return reviewDAO.getAllList();
+    }
+	@Override
+	public ReviewVO findMemberId(int review_id) {
+		return reviewDAO.findMemberId(review_id);
+	}
 }

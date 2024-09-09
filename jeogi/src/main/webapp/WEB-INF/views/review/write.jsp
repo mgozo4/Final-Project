@@ -9,7 +9,8 @@
 
     <form action="${pageContext.request.contextPath}/review/write" method="post">
     	<!-- @TODO review를 남기고자 하는 숙소 번호를 동적으로 할당하도록 변경 -->
-    	<input type="hidden" name="accommodation_id" value="1"/>
+    	<input type="hidden" name="user_id" value="${member.user_id}"/>
+		<input type="hidden" name="accommodation_id" value="1"/>
         <div class="form-group row mb-4">
             <label for="rating" class="col-md-2 col-form-label text-md-right">평점</label>
             <div class="col-md-10">
@@ -24,12 +25,12 @@
             </div>
         </div>
 
-        <div class="form-group row mb-4">
-            <label for="images" class="col-md-2 col-form-label text-md-right">이미지 URL</label>
-            <div class="col-md-10">
-                <input class="form-control" id="images" name="images" type="url" placeholder="이미지 URL을 입력하세요" required />
-            </div>
-        </div>
+<!--         <div class="form-group row mb-4"> -->
+<!--             <label for="images" class="col-md-2 col-form-label text-md-right">이미지 URL</label> -->
+<!--             <div class="col-md-10"> -->
+<!--                 <input class="form-control" id="images" name="images" type="url" placeholder="이미지 URL을 입력하세요" required /> -->
+<!--             </div> -->
+<!--         </div> -->
 
         <div class="form-group row mb-4">
             <div class="col-md-12 text-center">

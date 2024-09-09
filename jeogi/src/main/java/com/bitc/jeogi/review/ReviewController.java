@@ -27,23 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewController {
 
     private final ReviewService reviewService;
-
     /**
      * 페이징 처리 된 리뷰 목록 페이지
      */
     @GetMapping("list")
-    public void listPage(Integer accommodation_id, Criteria cri, Model model) throws Exception {
+    public void listPage(Criteria cri, Model model) throws Exception {
         log.info("리뷰 목록 페이지 요청됨");
-        if (accommodation_id == null) {
-            log.warn("Accommodation ID가 제공되지 않았습니다.");
-            return;
-        }
-
-        List<ReviewVO> reviews = reviewService.listCriteria(accommodation_id, cri);
-        model.addAttribute("list", reviews);
-        int totalCount = reviewService.countByAccommodationId(accommodation_id);
-        PageMaker pageMaker = reviewService.getPageMaker(cri, totalCount);
-        model.addAttribute("pageMaker", pageMaker);
+       model.addAttribute("reviews",reviewService.getAllList()); 
     }
     @GetMapping("write")
     public void write() throws Exception {
@@ -55,12 +45,12 @@ public class ReviewController {
      */
     @PostMapping("write")
     public String write(ReviewVO review, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+    	System.out.println(review+"------------------------------------");
         MemberDTO member = (MemberDTO) session.getAttribute("member");
         if (member == null) {
             redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/member/login";
         }
-        review.setUser_id(member.getUser_id()); 
         try {
             reviewService.write(review);
             redirectAttributes.addFlashAttribute("msg", "리뷰가 성공적으로 등록되었습니다.");
@@ -75,27 +65,21 @@ public class ReviewController {
      * 리뷰 상세보기 페이지
      */
     @GetMapping("detail")
-    public String detail(int review_id, Model model) throws Exception {
+    public void detail(int review_id, Model model) throws Exception {
         log.info("리뷰 상세보기 페이지 요청됨: review_id = {}", review_id);
 
         // 리뷰 상세 조회
         ReviewVO vo = reviewService.detail(review_id);
         model.addAttribute("review", vo);
-        return "review/detail";
     }
 
     /**
      * 리뷰 수정 페이지 요청 - 리뷰 수정 화면 출력
      */
     @GetMapping("update")
-    public String update(int review_id, Model model) throws Exception {
+    public void update(int review_id, Model model) throws Exception {
         log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);
-
-        // 리뷰 상세 조회
-        ReviewVO vo = reviewService.detail(review_id);
-        model.addAttribute("review", vo);
-        return "review/update";
-    }
+    } 
 
     /**
      * 리뷰 수정 처리 요청
@@ -114,13 +98,28 @@ public class ReviewController {
     /**
      * 리뷰 삭제 처리
      */
-    @GetMapping("delete")
-    public String remove(int review_id, RedirectAttributes rttr) throws Exception {
+    @PostMapping("delete")
+    public String remove(int review_id, HttpSession s,  RedirectAttributes rttr) throws Exception {
         log.info("리뷰 삭제 요청됨: review_id = {}", review_id);
 
         // 리뷰 삭제 처리
-        String msg = reviewService.delete(review_id);
-        rttr.addFlashAttribute("msg", msg);
-        return "redirect:/review/list";
+        MemberDTO loginMember = (MemberDTO) s.getAttribute("member");
+        ReviewVO writer = reviewService.findMemberId(review_id);
+        if(loginMember !=null) {
+        	if(loginMember.getUser_id() == writer.getUser_id()) {
+        		
+        		   String msg = reviewService.delete(review_id);
+        	        rttr.addFlashAttribute("msg", msg);
+        	        return "redirect:/review/list";
+        		
+        	}else {
+        		   rttr.addFlashAttribute("msg", "글 작성자가 아니잔아요.");
+        		    return "redirect:/review/list";
+        	}
+        } else {
+        	   rttr.addFlashAttribute("msg", "로그인안되어잇어요.");
+        	    return "redirect:/review/list";
+        }
+     
     }
 }

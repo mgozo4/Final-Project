@@ -11,7 +11,9 @@ public interface ReviewService {
     ReviewVO detail(int review_id) throws Exception;
     String update(ReviewVO review) throws Exception;
     String delete(int review_id) throws Exception;
-    List<ReviewVO> listCriteria(int accommodation_id, Criteria cri) throws Exception;
+    List<ReviewVO> listCriteria(Criteria cri) throws Exception;
     PageMaker getPageMaker(Criteria cri, int totalCount) throws Exception;
-    int countByAccommodationId(int accommodation_id) throws Exception;
+    int countByAccommodationId() throws Exception;
+	List<ReviewVO> getAllList();
+	ReviewVO findMemberId(int review_id); 
 }

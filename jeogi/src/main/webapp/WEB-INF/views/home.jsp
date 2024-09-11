@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>숙소 예약 관리자 대시보드</title>
+    <title>저기어때 관리자 대시보드</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dashboard.css">
 </head>
 <body>
     <div class="sidebar">
-        <h2>Dashboard</h2>
+        <h2>저기어때 대시보드</h2>
         <ul>
-            <li>홈페이지수정</li>
+            <li>메인</li>
             <li>숙소관리</li>
             <li>회원관리</li>
             <li>문의관리</li>
@@ -69,5 +69,8 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script>
+    	
+    </script>
 </body>
 </html>

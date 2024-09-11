@@ -16,25 +16,29 @@
 
     <form action="${pageContext.request.contextPath}/review/update" method="post">
         <input type="hidden" name="review_id" value="${review.review_id}" />
+        <input type="text" name="review_id" value="${review.review_id}" />
 
         <div class="form-group row mb-4">
             <label for="rating" class="col-md-2 col-form-label text-md-right">평점</label>
             <div class="col-md-10">
-                <input class="form-control" id="rating" name="rating" type="number" value="${review.rating}" min="1" max="5" required />
+                <input class="form-control" id="rating" name="rating" type="number" value="${review.rating}" min="1" max="5" required 
+                       placeholder="1에서 5 사이의 평점을 입력하세요." />
             </div>
         </div>
 
         <div class="form-group row mb-4">
             <label for="content" class="col-md-2 col-form-label text-md-right">내용</label>
             <div class="col-md-10">
-                <textarea class="form-control" id="content" name="content" rows="6" required>${review.content}</textarea>
+                <textarea class="form-control" id="content" name="content" rows="6" required 
+                          placeholder="리뷰 내용을 입력하세요.">${review.content}</textarea>
             </div>
         </div>
 
         <div class="form-group row mb-4">
             <label for="images" class="col-md-2 col-form-label text-md-right">이미지 URL</label>
             <div class="col-md-10">
-                <input class="form-control" id="images" name="images" type="url" value="${review.images}" required />
+                <input class="form-control" id="images" name="images" type="url" value="${review.images}" required 
+                       placeholder="이미지 URL을 입력하세요." />
             </div>
         </div>
 

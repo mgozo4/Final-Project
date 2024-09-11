@@ -15,7 +15,6 @@
                 <th>내용</th>
                 <th>이미지</th>
                 <th>작성일</th>
-                <th colspan="2" class="text-center">작업</th>
             </tr>
         </thead>
         <tbody>
@@ -26,11 +25,9 @@
                     <td>${review.rating}</td>
                     <td>${fn:length(review.content) > 50 ? fn:substring(review.content, 0, 50) + '...' : review.content}</td>
 <%--                     <td><img src="${review.images}" alt="리뷰 이미지" class="img-fluid" style="width: 100px;" /></td> --%>
+					<td></td>
                     <td>${review.created_at}</td>
-                    <td class="text-center"><a href="${pageContext.request.contextPath}/review/update?review_id=${review.review_id}" class="btn btn-warning btn-sm">수정</a></td>
-                    <td class="text-center">
-                        <button class="btn btn-danger btn-sm" onclick="confirmDelete('${review.review_id}')">삭제</button>
-                    </td>
+
                 </tr>
             </c:forEach>
         </tbody>

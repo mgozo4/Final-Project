@@ -79,21 +79,47 @@ public class ReviewController {
     @GetMapping("update")
     public void update(int review_id, Model model) throws Exception {
         log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);
+        ReviewVO review = reviewService.getById(review_id);
+        model.addAttribute("review", review);
     } 
 
     /**
      * 리뷰 수정 처리 요청
      */
     @PostMapping("update")
-    public String update(ReviewVO vo, RedirectAttributes rttr) throws Exception {
-        log.info("리뷰 수정 요청됨: ReviewVO = {}", vo);
-
-        // 리뷰 수정 처리
-        String result = reviewService.update(vo);
-        rttr.addAttribute("review_id", vo.getReview_id());
-        rttr.addFlashAttribute("msg", result);
-        return "redirect:/review/detail";
+    public String update(ReviewVO review, HttpSession s,  RedirectAttributes rttr) throws Exception {
+        log.info("리뷰 수정 요청됨: review = {}", review);
+        MemberDTO loginMember = (MemberDTO) s.getAttribute("member");
+        if(loginMember !=null) {
+        	if(loginMember.getUser_id() == review.getUser_id()) {
+        		
+        		   String msg = reviewService.update(review);
+        	        rttr.addFlashAttribute("msg", msg);
+        	        return "redirect:/review/list";
+        		
+        	}else {
+        		   rttr.addFlashAttribute("msg", "글 작성자가 아니잔아요.");
+        		    return "redirect:/review/list";
+        	}
+        } else {
+        	   rttr.addFlashAttribute("msg", "로그인안되어잇어요.");
+        	    return "redirect:/review/list";
+        }
+     
     }
+    
+    
+//    @PostMapping("update")
+//    public String update(ReviewVO vo, RedirectAttributes rttr) throws Exception {
+//        log.info("리뷰 수정 요청됨: ReviewVO = {}", vo);
+//
+//        // 리뷰 수정 처리
+//        String result = reviewService.update(vo);
+//        rttr.addAttribute("review_id", vo.getReview_id());
+//        rttr.addFlashAttribute("msg", result);
+//        return "redirect:/review/detail";
+//    }
+
 
     /**
      * 리뷰 삭제 처리

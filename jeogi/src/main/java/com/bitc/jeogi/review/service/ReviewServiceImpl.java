@@ -61,4 +61,8 @@ public class ReviewServiceImpl implements ReviewService {
 	public ReviewVO findMemberId(int review_id) {
 		return reviewDAO.findMemberId(review_id);
 	}
+	@Override
+	public ReviewVO getById(int review_id) {
+		return reviewDAO.getById(review_id);
+	}
 }

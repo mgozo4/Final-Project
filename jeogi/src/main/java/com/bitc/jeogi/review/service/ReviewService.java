@@ -15,5 +15,6 @@ public interface ReviewService {
     PageMaker getPageMaker(Criteria cri, int totalCount) throws Exception;
     int countByAccommodationId() throws Exception;
 	List<ReviewVO> getAllList();
-	ReviewVO findMemberId(int review_id); 
+	ReviewVO findMemberId(int review_id);
+	ReviewVO getById(int review_id); 
 }

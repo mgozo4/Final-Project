@@ -77,34 +77,29 @@ public class ReviewController {
      * 리뷰 수정 페이지 요청 - 리뷰 수정 화면 출력
      */
     @GetMapping("update")
-    public void update(int review_id, Model model) throws Exception {
-        log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);
-        ReviewVO review = reviewService.getById(review_id);
-        model.addAttribute("review", review);
+    public void update(int review_id, Model model, HttpSession s) throws Exception {
+    	ReviewVO vo = reviewService.findMemberId(review_id);
+    	  MemberDTO member = (MemberDTO) s.getAttribute("member");
+    	if(vo.getUser_id() == member.getUser_id()) {
+    		log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);
+            ReviewVO review = reviewService.getById(review_id);
+            model.addAttribute("review", review);
+    	}else {
+    		// 로그인불일치
+    	}
+    	
+        
     } 
 
     /**
      * 리뷰 수정 처리 요청
      */
     @PostMapping("update")
-    public String update(ReviewVO review, HttpSession s,  RedirectAttributes rttr) throws Exception {
+    public String update(Model model, ReviewVO review, HttpSession s,  RedirectAttributes rttr) throws Exception {
         log.info("리뷰 수정 요청됨: review = {}", review);
-        MemberDTO loginMember = (MemberDTO) s.getAttribute("member");
-        if(loginMember !=null) {
-        	if(loginMember.getUser_id() == review.getUser_id()) {
-        		
-        		   String msg = reviewService.update(review);
-        	        rttr.addFlashAttribute("msg", msg);
-        	        return "redirect:/review/list";
-        		
-        	}else {
-        		   rttr.addFlashAttribute("msg", "글 작성자가 아니잔아요.");
-        		    return "redirect:/review/list";
-        	}
-        } else {
-        	   rttr.addFlashAttribute("msg", "로그인안되어잇어요.");
-        	    return "redirect:/review/list";
-        }
+        String msg = reviewService.update(review);
+        model.addAttribute("msg",msg);
+        return "redirect:/review/list";
      
     }
     

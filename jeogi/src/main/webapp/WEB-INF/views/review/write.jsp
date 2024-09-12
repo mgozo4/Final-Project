@@ -1,7 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../common/header.jsp"%>
+<style>
+/* 기본 스타일 */
+body {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif'; /* 굵고 둥근 폰트 (Spoqa Han Sans Neo 또는 유사한 폰트 사용) */
+    background-color: #f5f5f5; /* 밝은 회색 배경 */
+}
 
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #ff5a5f; /* 여기어때 메인 색상 */
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500; /* 약간 굵은 폰트 */
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.form-control {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ced4da; /* Bootstrap 기본 border 색상 */
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #ff5a5f; /* 여기어때 메인 색상 */
+    border-color: #ff5a5f;
+    transition: background-color 0.3s; /* 호버 효과 부드럽게 */
+}
+
+.btn-primary:hover {
+    background-color: #e04a4f; /* 호버 시 어두운 색상 */
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+
+/* 추가적인 스타일 */
+.text-md-right {
+    text-align: right;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+.btn-lg {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+}
+
+.ml-3 {
+    margin-left: 1rem;
+}
+
+/* 폼 스타일 개선 */
+form {
+    background-color: #f8f9fa; /* 밝은 회색 배경 */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 더 깊은 그림자 효과 */
+}
+
+.form-group row {
+    align-items: center; /* 레이블과 입력 필드 수직 정렬 */
+}
+
+.col-form-label {
+    padding-top: calc(.375rem + 1px);
+    padding-bottom: calc(.375rem + 1px);
+    margin-bottom: 0;
+    font-size: 1.1rem; /* 레이블 폰트 크기 증가 */
+}
+</style>
 <div class="container my-5">
     <div class="text-center mb-4">
         <h1>리뷰 작성</h1>

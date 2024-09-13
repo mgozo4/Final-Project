@@ -116,7 +116,17 @@ textarea.form-control {
         <div class="form-group row">
             <label class="col-sm-3 col-form-label review-label text-right">평점</label>
             <div class="col-sm-9">
-                <p class="form-control-plaintext">${review.rating}</p>
+				<c:forEach var="i"
+									begin="1" end="5">
+									<c:choose>
+										<c:when test="${i <= review.rating}">
+                    						&#9733; 
+										</c:when>
+										<c:otherwise>
+ 						                   &#9734; 
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
             </div>
         </div>
 
@@ -133,6 +143,8 @@ textarea.form-control {
                 <img src="${review.images}" alt="리뷰 이미지" class="img-fluid" />
             </div>
         </div>
+        
+        
 
         <div class="review-actions my-4">
             <a href="${pageContext.request.contextPath}/review/update?review_id=${review.review_id}" class="btn btn-warning">수정</a>

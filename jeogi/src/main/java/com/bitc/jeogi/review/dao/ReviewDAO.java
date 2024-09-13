@@ -50,4 +50,17 @@ public interface ReviewDAO {
 
 	@Select("SELECT * FROM review where review_id = #{review_id}")
 	ReviewVO getById(int review_id);
+
+	@Select("SELECT count(*) FROM review")
+	int getTotalCount();
+	// a, b
+	// (a-1)*b
+	// 1 10 // 0
+	// 1~10
+	// 5 20 // 80
+	// 81~100
+	// 3 40 // 80
+	// 81~120
+	@Select("SELECT * FROM review ORDER by review_id DESC limit #{startRow}, #{perPageNum}")
+	List<ReviewVO> getPageReview(Criteria cri);
 }

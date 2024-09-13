@@ -65,4 +65,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public ReviewVO getById(int review_id) {
 		return reviewDAO.getById(review_id);
 	}
+	@Override
+	public int getTotalCount() {
+		return reviewDAO.getTotalCount();
+	}
+	@Override
+	public List<ReviewVO> getPageReview(Criteria cri) {
+		return reviewDAO.getPageReview(cri);
+	}
 }

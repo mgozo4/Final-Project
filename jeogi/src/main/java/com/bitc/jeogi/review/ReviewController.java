@@ -34,7 +34,12 @@ public class ReviewController {
 	@GetMapping("list")
 	public void listPage(Criteria cri, Model model) throws Exception {
 		log.info("리뷰 목록 페이지 요청됨");
-		model.addAttribute("reviews", reviewService.getAllList());
+		int totalCount = reviewService.getTotalCount();
+		PageMaker pm = new PageMaker(cri, totalCount);
+		List<ReviewVO> reviewList = reviewService.getPageReview(cri);
+		
+		model.addAttribute("reviews", reviewList);
+		model.addAttribute("pm", pm);
 	}
 
 	@GetMapping("write")

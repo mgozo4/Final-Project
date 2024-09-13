@@ -16,5 +16,7 @@ public interface ReviewService {
     int countByAccommodationId() throws Exception;
 	List<ReviewVO> getAllList();
 	ReviewVO findMemberId(int review_id);
-	ReviewVO getById(int review_id); 
+	ReviewVO getById(int review_id);
+	int getTotalCount();
+	List<ReviewVO> getPageReview(Criteria cri); 
 }

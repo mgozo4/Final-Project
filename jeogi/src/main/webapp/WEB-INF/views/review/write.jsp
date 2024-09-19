@@ -95,6 +95,30 @@ form {
     margin-bottom: 0;
     font-size: 1.1rem; /* 레이블 폰트 크기 증가 */
 }
+ .star-rating {
+        display: inline-flex;
+        direction: rtl; /* 오른쪽에서 왼쪽으로 배치 */
+    }
+
+    .star-rating input {
+        display: none; /* input 요소 숨김 */
+    }
+
+    .star-rating label {
+        font-size: 2rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .star-rating input:checked ~ label {
+        color: #f39c12;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #f39c12; /* Hover시 별 색 */
+    }
 </style>
 <div class="container my-5">
     <div class="text-center mb-4">
@@ -109,6 +133,23 @@ form {
             <label for="rating" class="col-md-2 col-form-label text-md-right">평점</label>
             <div class="col-md-10">
                 <input class="form-control" id="rating" name="rating" type="number" min="1" max="5" placeholder="1에서 5 사이의 숫자를 입력하세요" required />
+              <div class="star-rating">
+    <input type="radio" id="star5" name="rating1" value="5" />
+    <label for="star5">☆</label>
+    
+    <input type="radio" id="star4" name="rating1" value="4" />
+    <label for="star4">☆</label>
+    
+    <input type="radio" id="star3" name="rating1" value="3" />
+    <label for="star3">☆</label>
+    
+    <input type="radio" id="star2" name="rating1" value="2" />
+    <label for="star2">☆</label>
+    
+    <input type="radio" id="star1" name="rating1" value="1" />
+    <label for="star1">☆</label>
+</div>
+
             </div>
         </div>
 
@@ -134,5 +175,22 @@ form {
         </div>
     </form>
 </div>
+<script>
+    // 별을 클릭하면 숫자 필드에 값 설정
+    document.querySelectorAll('.star-rating input').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.getElementById('rating').value = this.value;
+        });
+    });
 
+    // 숫자 필드의 값이 변경되면 해당하는 별을 선택
+    document.getElementById('rating').addEventListener('input', function() {
+        var ratingValue = this.value;
+        document.querySelectorAll('.star-rating input').forEach(function(radio) {
+            if (radio.value == ratingValue) {
+                radio.checked = true;
+            }
+        });
+    });
+</script>
 <%@ include file="../common/footer.jsp"%>

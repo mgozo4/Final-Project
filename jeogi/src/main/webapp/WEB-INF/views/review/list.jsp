@@ -39,7 +39,7 @@
 
 .card-text span {
 	font-size: 1rem;
-	color: #007bff; /* Bootstrap's primary color */
+	color: #007bff;
 }
 
 .btn-primary {
@@ -77,6 +77,11 @@
 .my-5 {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
+}
+
+.page-item{
+	display: inline-block;
+	
 }
 </style>
 
@@ -163,7 +168,7 @@
 
 <script>
     function detail(review_id) {
-    	console.log("dlwlsdn")
+    	console.log("dlekgks")
         window.location.href = '${pageContext.request.contextPath}/review/detail?review_id=' + review_id;
     }
 </script>

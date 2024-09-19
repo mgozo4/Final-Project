@@ -125,9 +125,35 @@
 			</div>
 		</c:forEach>
 	</div>
+	<div class="container">
+	<ul class="pagination justify-content-center">
+		<c:if test="${pm.prev}">
+			<li class="page-item"><a class="page-link"
+				href="?page=${pm.startPage-1}">&lt;</a></li>
+		</c:if>
+		<c:forEach var="i" begin="${pm.startPage}" end="${pm.endPage}">
+			<c:choose>
+				<c:when test="${pm.cri.page eq i}">
+				 <li class="page-item ${pm.cri.page == i ? 'active' : ''}">
+        <a class="page-link" href="?page=${i}">${i}</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="?page=${i}">${i}</a>
+					</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${pm.next}">
+			<li class="page-item"><a class="page-link"
+				href="?page=${pm.endPage+1}">&gt;</a></li>
+		</c:if>
+	</ul>
+</div>
+	<%-- 
 	<a href="${pageContext.request.contextPath}/review/list?page=1">1</a>
 	<a href="${pageContext.request.contextPath}/review/list?page=2">2</a>
-
+ --%>
 	<div class="text-center my-4">
 		<a href="${pageContext.request.contextPath}/review/write"
 			class="btn btn-primary">리뷰 작성하기</a>

@@ -83,6 +83,7 @@
 	display: inline-block;
 	
 }
+
 </style>
 
 <div class="container my-5">
@@ -104,21 +105,19 @@
 					</c:choose>
 					<div class="card-body">
 						<h5 class="card-title">리뷰 ID: ${review.review_id}</h5>
-						<h6 class="card-subtitle mb-2 text-muted">작성자 ID:
-							${review.user_id}</h6>
-						<p class="card-text">
-							평점: <span class="star-rating"> <c:forEach var="i"
-									begin="1" end="5">
+						<h6 class="card-subtitle mb-2 text-muted">작성자 ID: ${review.user_id}</h6>
+						<p class="card-text">내용: ${review.content}</p>
+						<c:forEach var="i" begin="1" end="5">
 									<c:choose>
 										<c:when test="${i <= review.rating}">
-                    						&#9733; 
+											<span class="filled">★</span>
 										</c:when>
 										<c:otherwise>
- 						                   &#9734; 
+											<span>☆</span> 
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
-							</span><br> 내용: ${review.content}
+							</div>
 						</p>
 						<p class="card-text text-muted">작성일: ${review.created_at}</p>
 						<div class="d-flex justify-content-end">

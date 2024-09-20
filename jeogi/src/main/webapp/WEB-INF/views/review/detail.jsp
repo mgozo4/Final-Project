@@ -79,7 +79,7 @@ textarea.form-control {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 알림 메시지 스타일 */
+/* 알림 메시지 스타일 */	
 .alert {
   border-radius: 5px;
   font-size: 1.1rem;
@@ -90,6 +90,7 @@ textarea.form-control {
   border-color: #f5c6cb;
   color: #721c24;
 }
+
 </style>
 <body>
     <div class="container review-detail-container">
@@ -115,19 +116,20 @@ textarea.form-control {
 
         <div class="form-group row">
             <label class="col-sm-3 col-form-label review-label text-right">평점</label>
-            <div class="col-sm-9">
-				<c:forEach var="i"
-									begin="1" end="5">
-									<c:choose>
-										<c:when test="${i <= review.rating}">
-                    						&#9733; 
-										</c:when>
-										<c:otherwise>
- 						                   &#9734; 
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
+               <div class="col-sm-9">
+				  <div class="star-rating">
+                <c:forEach var="i" begin="1" end="5">
+                    <c:choose>
+                        <c:when test="${i <= review.rating}">
+                            <span class="filled">★</span> 
+                        </c:when>
+                        <c:otherwise>
+                            <span>☆</span> 
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
             </div>
+            
         </div>
 
         <div class="form-group row">

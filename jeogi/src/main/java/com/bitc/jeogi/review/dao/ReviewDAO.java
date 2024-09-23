@@ -10,14 +10,14 @@ import org.apache.ibatis.annotations.Update;
 
 import com.bitc.jeogi.common.util.Criteria;
 import com.bitc.jeogi.review.dto.MemberDTO;
-import com.bitc.jeogi.vo.ReviewVO;
+import com.bitc.jeogi.review.vo.ReviewVO;
 
 @Mapper
 public interface ReviewDAO {
 
 	// 리뷰 추가
-	@Insert("INSERT INTO review (accommodation_id, user_id, rating, content,images, created_at) "
-			+ "VALUES (#{accommodation_id}, #{user_id}, #{rating}, #{content}, 'img', NOW())")
+	@Insert("INSERT INTO review (accommodation_id, user_id, rating, content, images, created_at) "
+			+ "VALUES (#{accommodation_id}, #{user_id}, #{rating}, #{content}, #{images}, NOW())")
 	void insert(ReviewVO review);
 
 	// 리뷰 조회

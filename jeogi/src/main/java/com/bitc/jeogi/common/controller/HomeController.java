@@ -1,4 +1,4 @@
-package com.bitc.jeogi;
+package com.bitc.jeogi.common.controller;
 
 import java.text.DateFormat;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.bitc.jeogi;
+package com.bitc.jeogi.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

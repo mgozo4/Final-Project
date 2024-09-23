@@ -8,12 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="${contextPath}/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
     <title>My Website</title>
-    <script>
-        let msg = '${msg}';
-        if (msg) {
-            alert(msg);
-        }
-    </script>
 </head>
 <body>
 

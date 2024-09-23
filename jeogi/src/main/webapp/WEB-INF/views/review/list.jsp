@@ -95,11 +95,11 @@
 				<div class="card shadow-sm rounded">
 					<c:choose>
 						<c:when test="${not empty review.images}">
-							<img src="${review.images}" alt="리뷰 이미지" class="card-img-top"
+							<img src="${contextPath}/displayFile?fileName=${review.images}" alt="리뷰 이미지" class="card-img-top"
 								style="height: 200px; object-fit: cover;">
 						</c:when>
 						<c:otherwise>
-							<img src="default-image.jpg" alt="기본 이미지" class="card-img-top"
+							<img src="${contextPath}/resources/default-image.png" alt="기본 이미지" class="card-img-top"
 								style="height: 200px; object-fit: cover;">
 						</c:otherwise>
 					</c:choose>
@@ -108,17 +108,16 @@
 						<h6 class="card-subtitle mb-2 text-muted">작성자 ID: ${review.user_id}</h6>
 						<p class="card-text">내용: ${review.content}</p>
 						<c:forEach var="i" begin="1" end="5">
-									<c:choose>
-										<c:when test="${i <= review.rating}">
-											<span class="filled">★</span>
-										</c:when>
-										<c:otherwise>
-											<span>☆</span> 
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</div>
-						</p>
+							<c:choose>
+								<c:when test="${i <= review.rating}">
+									<span class="filled">★</span>
+								</c:when>
+								<c:otherwise>
+									<span>☆</span> 
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
 						<p class="card-text text-muted">작성일: ${review.created_at}</p>
 						<div class="d-flex justify-content-end">
 							<a href="#" class="btn btn-primary"
@@ -126,8 +125,8 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</c:forEach>
+			</c:forEach>
+		</div>
 	</div>
 	<div class="container">
 	<ul class="pagination justify-content-center">

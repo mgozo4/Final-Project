@@ -2,12 +2,14 @@ package com.bitc.jeogi.review.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bitc.jeogi.common.util.Criteria;
 import com.bitc.jeogi.common.util.PageMaker;
-import com.bitc.jeogi.vo.ReviewVO;
+import com.bitc.jeogi.review.vo.ReviewVO;
 
 public interface ReviewService {
-	void write(ReviewVO review) throws Exception;
+	void write(ReviewVO review, MultipartFile file) throws Exception;
     ReviewVO detail(int review_id) throws Exception;
     String update(ReviewVO review) throws Exception;
     String delete(int review_id) throws Exception;

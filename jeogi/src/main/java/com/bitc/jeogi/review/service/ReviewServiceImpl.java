@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bitc.jeogi.common.util.Criteria;
+import com.bitc.jeogi.common.util.FileUtil;
 import com.bitc.jeogi.common.util.PageMaker;
 import com.bitc.jeogi.review.dao.ReviewDAO;
-import com.bitc.jeogi.vo.ReviewVO;
+import com.bitc.jeogi.review.vo.ReviewVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +19,20 @@ import lombok.RequiredArgsConstructor;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewDAO reviewDAO;
+    
+    private final String uploadDir;
+    
     @Transactional
     @Override
-    public void write(ReviewVO review) throws Exception {
-        reviewDAO.insert(review);
-    }
+    public void write(ReviewVO review,MultipartFile file) throws Exception {
+    	 review.setImages("");
+    	 if (file != null && !file.isEmpty()) {
+             String uploadedFileName = FileUtil.uploadFile(uploadDir, file);
+             review.setImages(uploadedFileName);
+         }
+         reviewDAO.insert(review); 
+     }
+ 
     @Override
     public ReviewVO detail(int review_id) throws Exception {
         return reviewDAO.selectById(review_id);

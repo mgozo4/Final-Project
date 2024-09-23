@@ -1,4 +1,4 @@
-package com.bitc.jeogi.review;
+package com.bitc.jeogi.review.controller;
 
 import com.bitc.jeogi.review.dto.MemberDTO;
 import com.bitc.jeogi.review.service.MemberService;
@@ -49,7 +49,7 @@ public class MemberController {
         MemberDTO member = memberService.login(id, password);
         if (member != null) {
             session.setAttribute("member", member);
-            return "redirect:/member/home";
+            return "redirect:/";
         } else {
             redirectAttributes.addFlashAttribute("msg", "로그인 실패");
             return "redirect:/member/login";

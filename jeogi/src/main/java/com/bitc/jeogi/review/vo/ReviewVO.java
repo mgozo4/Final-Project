@@ -1,4 +1,4 @@
-package com.bitc.jeogi.vo;
+package com.bitc.jeogi.review.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

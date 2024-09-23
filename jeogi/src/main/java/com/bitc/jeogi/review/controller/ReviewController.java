@@ -1,12 +1,14 @@
-package com.bitc.jeogi.review;
+package com.bitc.jeogi.review.controller;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,7 @@ import com.bitc.jeogi.common.util.FileUtil;
 import com.bitc.jeogi.common.util.PageMaker;
 import com.bitc.jeogi.review.dto.MemberDTO;
 import com.bitc.jeogi.review.service.ReviewService;
-import com.bitc.jeogi.vo.ReviewVO;
+import com.bitc.jeogi.review.vo.ReviewVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,22 +58,18 @@ public class ReviewController {
      * 리뷰 등록 요청 처리
      */
     @PostMapping("write")
-    public String write(ReviewVO review, MultipartFile file, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-        MemberDTO member = (MemberDTO) session.getAttribute("member");
+    public String write(ReviewVO review, MultipartFile file,
+            HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+    	  System.out.println("Review: " + review);
+    	    System.out.println("File: " + file);
+    	MemberDTO member = (MemberDTO) session.getAttribute("member");
         if (member == null) {
             redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/member/login";
         }
         
         try {
-            // 이미지 업로드 처리
-            if (!file.isEmpty()) {
-                String realPath = "C:/upload/"; // 실제 경로 설정
-                String uniqueFileName = FileUtil.uploadFile(realPath, file);
-                review.setImages(uniqueFileName); // 이미지 경로 저장
-            }
-
-            reviewService.write(review);
+            reviewService.write(review, file); 
             redirectAttributes.addFlashAttribute("msg", "리뷰가 성공적으로 등록되었습니다.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg", "리뷰 등록 중 오류가 발생했습니다.");

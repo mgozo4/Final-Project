@@ -29,6 +29,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/customer_center/customer_center">고객 상담</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Inquiry/inquiryList">문의목록</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Inquiry/submitInquiry">문의제출</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Inquiry/submitOneOnOneInquiry">1:1 문의 제출</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Inquiry/updateInquiryStatus">문의상태수정</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Inquiry/viewInquiry">문의상세보기</a>
+                </li>
             </ul>
         </div>
     </div>

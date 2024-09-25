@@ -3,22 +3,32 @@ package com.bitc.jeogi.customer.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import com.bitc.jeogi.customer.vo.InquiryVO;
 
+
 public interface InquiryDAO {
 
-    @Insert("INSERT INTO inquiry (user_id, title, content, status) VALUES (#{userId}, #{title}, #{content}, #{status})")
-    @Options(useGeneratedKeys = true, keyProperty = "inquiryId")
+    @Insert(" INSERT INTO inquiries (user_id, title, content, created_at, status) "
+    		+ "VALUES (#{user_id}, #{title}, #{content}, NOW(), #{status})")
+    // 문의 제출
     void insertInquiry(InquiryVO inquiry);
-    @Select("SELECT * FROM inquiry WHERE user_id = #{userId}")
-    List<InquiryVO> getInquiriesByUserId(int userId);
-    @Select("SELECT * FROM inquiry WHERE inquiry_id = #{inquiryId}")
-    InquiryVO getInquiryById(int inquiryId);
-    @Update("UPDATE inquiry SET status = #{status} WHERE inquiry_id = #{inquiryId}")
-    void updateInquiryStatus(@Param("inquiryId") int inquiryId, @Param("status") String status);
+
+
+    @Select("SELECT * FROM inquiries WHERE inquiry_id = #{inquiry_id}")
+    // 문의 ID로 조회
+    InquiryVO selectInquiryById(int inquiry_id);
+    @Select(" SELECT * FROM inquiries WHERE user_id = #{user_id}")
+ // 사용자 ID로 문의 목록 조회
+    List<InquiryVO> selectInquiriesByUserId(int user_id);
+    @Select("SELECT * FROM inquiries")
+    // 모든 문의 목록 조회
+    List<InquiryVO> selectAllInquiries();
+    @Update(" UPDATE inquiries SET status = #{status} WHERE inquiry_id = #{inquiry_id}")
+    // 문의 상태 업데이트
+    void updateInquiryStatus(int inquiry_id, String status);
 }

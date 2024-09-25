@@ -1,3 +1,5 @@
+package com.bitc.jeogi.customer.controller;
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,39 +8,55 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bitc.jeogi.customer.service.InquiryService;
 import com.bitc.jeogi.customer.vo.InquiryVO;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequestMapping("/inquiries")
 @RequiredArgsConstructor
+@RestController // ResponseBody가 자동으로 적용됨
+@RequestMapping("/inquiries")
 public class InquiryController {
 
     private final InquiryService inquiryService;
 
-    // 문의 등록
-    @PostMapping("/add")
-    public String addInquiry(@RequestBody InquiryVO inquiry) {
-        inquiryService.insertInquiry(inquiry);
-        return "Inquiry added successfully!";
+    @PostMapping
+    public void submitInquiry(@RequestBody InquiryVO inquiry) {
+        inquiryService.submitInquiry(inquiry);
     }
 
-    // 문의 ID로 조회
-    @GetMapping("/{id}")
-    public InquiryVO getInquiryById(@PathVariable int id) {
-        return inquiryService.getInquiryById(id);
+    @GetMapping("/viewInquiry/{inquiry_id}")
+    public InquiryVO getInquiry(@PathVariable int inquiry_id) {
+        return inquiryService.getInquiryById(inquiry_id);
     }
 
-    // 모든 문의 조회
-    @GetMapping("/all")
+    @GetMapping("/user/{user_id}")
+    public List<InquiryVO> getInquiriesByUserId(@PathVariable int user_id) {
+        return inquiryService.getInquiriesByUserId(user_id);
+    }
+
+    @GetMapping
     public List<InquiryVO> getAllInquiries() {
         return inquiryService.getAllInquiries();
     }
 
-    // 문의 상태 업데이트
-    @PutMapping("/{id}/status")
-    public String updateInquiryStatus(@PathVariable
-O
+    @PutMapping("/{inquiry_id}/status")
+    public void updateInquiryStatus(@PathVariable int inquiry_id, @RequestParam String status) {
+        inquiryService.updateInquiryStatus(inquiry_id, status);
+    }
+    @GetMapping("/list") 
+    public List<InquiryVO> getInquiryList() {
+        return inquiryService.getAllInquiries();
+    }
+    @GetMapping("/submitOneOnOneInquiry")
+    public String showSubmitOneOnOneInquiryPage() {
+        return "submitOneOnOneInquiry"; 
+    }
+    @PostMapping("/one-on-one")
+    public void submitOneOnOneInquiry(@RequestBody InquiryVO inquiry) {
+        inquiryService.submitInquiry(inquiry);
+    }
+}

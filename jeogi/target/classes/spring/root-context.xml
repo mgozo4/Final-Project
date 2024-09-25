@@ -26,5 +26,5 @@
 </bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<mybatis-spring:scan base-package="com.bitc.jeogi.review.dao" />
+	<mybatis-spring:scan base-package="com.bitc.jeogi.review.dao, com.bitc.jeogi.customer.dao"  />
 </beans>

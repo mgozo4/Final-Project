@@ -153,10 +153,6 @@
 		</c:if>
 	</ul>
 </div>
-	<%-- 
-	<a href="${pageContext.request.contextPath}/review/list?page=1">1</a>
-	<a href="${pageContext.request.contextPath}/review/list?page=2">2</a>
- --%>
 	<div class="text-center my-4">
 		<a href="${pageContext.request.contextPath}/review/write"
 			class="btn btn-primary">리뷰 작성하기</a>

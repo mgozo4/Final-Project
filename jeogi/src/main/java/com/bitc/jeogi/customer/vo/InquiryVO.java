@@ -1,14 +1,17 @@
 package com.bitc.jeogi.customer.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InquiryVO {
-    private int inquiryId;    // 문의 고유 ID
-    private int userId;       // 고객 ID (외래키)
-    private String title;     // 문의 제목
-    private String content;   // 문의 내용
-    private LocalDateTime createdAt; // 문의 작성 일시
-    private String status;    // 문의 상태 (답변 대기, 답변 완료 등)
+    private int inquiry_id;    // 문의 고유 ID
+    private int user_id;      // 문의 작성자 ID (User 테이블 외래 키)
+    private String title;       //문의 제목
+    private String content;      // 문의 내용
+    private String created_at;    // 문의 작성 일시
+    private String status;       // 문의 상태 (답변 대기, 답변 완료 등)
 }

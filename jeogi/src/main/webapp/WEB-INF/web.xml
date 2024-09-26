@@ -37,7 +37,6 @@
 			<param-value>
 				classpath:/spring/appServlet/servlet-context.xml
 				classpath:/spring/appServlet/interceptor-context.xml
-				classpath:/spring/appServlet/web-socket-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

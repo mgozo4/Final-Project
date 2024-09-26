@@ -20,7 +20,7 @@ public interface UserDAO {
 			+"u_id,u_pw,u_profile,u_name,u_phone,u_birth,u_addr,u_addr_detail,u_addr_post" 
 			+")VALUES("
 			+" #{u_id}, "
-			+ "#{u_email},"
+			/* + "#{u_email}," */
 			+ "#{u_pw},"
 			+ "#{u_profile},"
 			+ "#{u_name},"

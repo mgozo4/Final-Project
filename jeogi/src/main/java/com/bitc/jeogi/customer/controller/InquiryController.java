@@ -1,62 +1,100 @@
 package com.bitc.jeogi.customer.controller;
 
-import java.util.List;
 
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bitc.jeogi.common.util.SearchCriteria;
 import com.bitc.jeogi.customer.service.InquiryService;
 import com.bitc.jeogi.customer.vo.InquiryVO;
+import com.bitc.jeogi.review.controller.ReviewController;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
+@Controller
+@RequestMapping("/inquiry/*")
 @RequiredArgsConstructor
-@RestController // ResponseBody가 자동으로 적용됨
-@RequestMapping("/inquiries")
 public class InquiryController {
+	
+	private final InquiryService inquiryService;
 
-    private final InquiryService inquiryService;
+	// 문의 목록 조회
+	@GetMapping("list")
+	public String list(SearchCriteria cri, Model model) throws Exception {
+		log.info(" 목록 페이지 요청");
+		Map<String, Object> map = inquiryService.list(cri);
+		model.addAllAttributes(map);
+		return "inquiry/list";
+	}
 
-    @PostMapping
-    public void submitInquiry(@RequestBody InquiryVO inquiry) {
-        inquiryService.submitInquiry(inquiry);
-    }
+	// 문의 등록 페이지 이동
+	@GetMapping("register")
+	public String register() throws Exception {
+		log.info(" 문의 등록");
+		return "inquiry/register";
+	}
 
-    @GetMapping("/viewInquiry/{inquiry_id}")
-    public InquiryVO getInquiry(@PathVariable int inquiry_id) {
-        return inquiryService.getInquiryById(inquiry_id);
-    }
+	// 문의 등록 처리
+	@PostMapping("register")
+	public String register(
+			InquiryVO vo,
+			RedirectAttributes rttr) throws Exception {
+		log.info(" 문의등록");
+		String msg = inquiryService.regist(vo);
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:/inquiry/list";
+	}
 
-    @GetMapping("/user/{user_id}")
-    public List<InquiryVO> getInquiriesByUserId(@PathVariable int user_id) {
-        return inquiryService.getInquiriesByUserId(user_id);
-    }
+	// 문의 상세 조회 (조회수 증가 후 상세보기 페이지 이동)
+	@GetMapping("readView")
+	public String readView(int inquiry_id, RedirectAttributes rttr) throws Exception {
+		log.info(" 문의 상세");
+		inquiryService.incrementViewCount(inquiry_id); // 조회수 증가
+		rttr.addAttribute("inquiry_id", inquiry_id);
+		return "redirect:/inquiry/read";
+	}
 
-    @GetMapping
-    public List<InquiryVO> getAllInquiries() {
-        return inquiryService.getAllInquiries();
-    }
+	// 문의 상세보기 페이지
+	@GetMapping("read")
+	public String read(int inquiry_id, Model model) throws Exception {
+		log.info(" 문의 상세보기페이지");
+		InquiryVO inquiry = inquiryService.getInquiry(inquiry_id);
+		model.addAttribute("inquiry", inquiry);
+		return "inquiry/read";
+	}
 
-    @PutMapping("/{inquiry_id}/status")
-    public void updateInquiryStatus(@PathVariable int inquiry_id, @RequestParam String status) {
-        inquiryService.updateInquiryStatus(inquiry_id, status);
-    }
-    @GetMapping("/list") 
-    public List<InquiryVO> getInquiryList() {
-        return inquiryService.getAllInquiries();
-    }
-    @GetMapping("/submitOneOnOneInquiry")
-    public String showSubmitOneOnOneInquiryPage() {
-        return "submitOneOnOneInquiry"; 
-    }
-    @PostMapping("/one-on-one")
-    public void submitOneOnOneInquiry(@RequestBody InquiryVO inquiry) {
-        inquiryService.submitInquiry(inquiry);
+	// 문의 수정 페이지 이동
+	@GetMapping("modify")
+	public String modify(int inquiry_id, Model model) throws Exception {
+		log.info(" 문의 수정");
+		InquiryVO inquiry = inquiryService.getInquiry(inquiry_id);
+		model.addAttribute("inquiry", inquiry);
+		return "inquiry/modify";
+	}
+
+	// 문의 수정 처리
+	@PostMapping("modify")
+	public String modify(
+			InquiryVO vo,
+			RedirectAttributes rttr) throws Exception {
+		log.info("문의 수정");
+		String msg = inquiryService.modify(vo);
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:/inquiry/read?inquiry_id=" + vo.getInquiry_id();
+	}
+	  // 문의 삭제 처리
+    @PostMapping("/delete")
+    public String delete(int inquiry_id, RedirectAttributes rttr) throws Exception {
+    	log.info("문의 삭제");
+        String msg = inquiryService.delete(inquiry_id);
+        rttr.addFlashAttribute("msg", msg);
+        return "redirect:/inquiry/list"; 
     }
 }

@@ -1,22 +1,26 @@
 package com.bitc.jeogi.customer.service;
 
-import java.util.List;
+import java.util.Map;
 
+import com.bitc.jeogi.common.util.SearchCriteria;
 import com.bitc.jeogi.customer.vo.InquiryVO;
 
 public interface InquiryService {
-	 // 문의 제출
-    void submitInquiry(InquiryVO inquiry);
+    // 문의 목록 조회
+    Map<String, Object> list(SearchCriteria cri) throws Exception;
 
-    // 문의 ID로 조회
-    InquiryVO getInquiryById(int inquiry_id);
+    // 문의 등록
+    String regist(InquiryVO vo) throws Exception;
 
-    // 사용자 ID로 문의 목록 조회
-    List<InquiryVO> getInquiriesByUserId(int userId);
+    // 문의 상세 조회
+    InquiryVO getInquiry(int inquiry_id) throws Exception;
 
-    // 모든 문의 목록 조회
-    List<InquiryVO> getAllInquiries();
+    // 문의 수정
+    String modify(InquiryVO vo) throws Exception;
 
-    // 문의 상태 업데이트
-    void updateInquiryStatus(int inquiryId, String status);
+    // 조회수 증가
+    void incrementViewCount(int inquiry_id) throws Exception;
+    
+    
+    String delete(int inquiry_id) throws Exception; // 삭제 메서드 추가
 }

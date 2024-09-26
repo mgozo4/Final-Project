@@ -2,33 +2,40 @@ package com.bitc.jeogi.customer.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
 
+import com.bitc.jeogi.common.util.SearchCriteria;
 import com.bitc.jeogi.customer.vo.InquiryVO;
 
+	public interface InquiryDAO {
+	    // 문의 목록 조회
+		@Select("SELECT * FROM inquiry WHERE title LIKE CONCAT('%', #{keyword}, '%') ORDER BY created_at DESC LIMIT #{startRow}, #{perPageNum}")
+	    List<InquiryVO> list(SearchCriteria cri) throws Exception;
 
-public interface InquiryDAO {
+	    // 문의 등록
+		@Insert("INSERT INTO inquiry (user_id, title, content, created_at, status) VALUES (#{user_id}, #{title}, #{content}, NOW(), '답변 대기')")
+	    void regist(InquiryVO vo) throws Exception;
 
-    @Insert(" INSERT INTO inquiries (user_id, title, content, created_at, status) "
-    		+ "VALUES (#{user_id}, #{title}, #{content}, NOW(), #{status})")
-    // 문의 제출
-    void insertInquiry(InquiryVO inquiry);
+	    // 문의 상세 조회
+		@Select("SELECT * FROM inquiry WHERE inquiry_id = #{inquiry_id}")
+	    InquiryVO getInquiry(int inquiry_id) throws Exception;
 
+	    // 문의 수정
+		@Update("UPDATE inquiry SET title = #{title}, content = #{content}, status = #{status} WHERE inquiry_id = #{inquiry_id}")
+	    void modify(InquiryVO vo) throws Exception;
 
-    @Select("SELECT * FROM inquiries WHERE inquiry_id = #{inquiry_id}")
-    // 문의 ID로 조회
-    InquiryVO selectInquiryById(int inquiry_id);
-    @Select(" SELECT * FROM inquiries WHERE user_id = #{user_id}")
- // 사용자 ID로 문의 목록 조회
-    List<InquiryVO> selectInquiriesByUserId(int user_id);
-    @Select("SELECT * FROM inquiries")
-    // 모든 문의 목록 조회
-    List<InquiryVO> selectAllInquiries();
-    @Update(" UPDATE inquiries SET status = #{status} WHERE inquiry_id = #{inquiry_id}")
-    // 문의 상태 업데이트
-    void updateInquiryStatus(int inquiry_id, String status);
-}
+	    // 문의 삭제
+		 @Delete("DELETE FROM inquiry WHERE inquiry_id = #{inquiry_id}")
+	    void delete(int inquiry_id) throws Exception;
+
+	    // 조회수 증가
+		   @Update("UPDATE inquiry SET view_count = view_count + 1 WHERE inquiry_id = #{inquiry_id}")
+	    void incrementViewCount(int inquiry_id) throws Exception;
+
+	    // 문의 총 개수
+	    @Select(" SELECT COUNT(*) FROM inquiry WHERE title LIKE CONCAT('%', #{keyword}, '%')")
+	    int countInquiries(SearchCriteria cri) throws Exception;
+	}

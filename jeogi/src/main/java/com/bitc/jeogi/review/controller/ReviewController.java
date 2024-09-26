@@ -103,7 +103,7 @@ public class ReviewController {
 		
 		ReviewVO vo = reviewService.findMemberId(review_id);
 		MemberDTO member = (MemberDTO) s.getAttribute("member");
-		log.info("이진우"+member);
+		log.info("다한"+member);
 		if(member!=null) {
 		if (vo.getUser_id() == member.getUser_id()) {
 			log.info("리뷰 수정 페이지 요청됨: review_id = {}", review_id);

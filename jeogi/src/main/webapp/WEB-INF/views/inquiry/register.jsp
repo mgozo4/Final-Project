@@ -40,7 +40,7 @@
 <div class="container">
     <h1>게시글 등록</h1>
     <form action="${pageContext.request.contextPath}/inquiry/register" method="POST">
-        <input type="hidden" name="u_no" value="${userInfo.u_no}" />
+        <input type="hidden" name="user_id" value="${sessionScope.member.user_id}" />
         <table>
             <tr>
                 <th>제목</th>
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>작성자</th>
-                <td>${userInfo.u_name}</td>
+                    <td>${sessionScope.member.user_id}</td>
             </tr>
             <tr>
                 <th>내용</th>

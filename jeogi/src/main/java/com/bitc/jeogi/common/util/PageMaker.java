@@ -1,5 +1,6 @@
 package com.bitc.jeogi.common.util;
 
+
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,7 +21,7 @@ public class PageMaker {
 	private boolean prev; 					// 이전페이지 블럭 존재 여부
 	private boolean next; 					// 마지막페이지 블럭 존재 여부
 
-	private Criteria cri; 					// 요청 페이지 , 한번에 보여줄 게시물 수
+	protected Criteria cri; 					// 요청 페이지 , 한번에 보여줄 게시물 수
 
 	public PageMaker() {
 		this(new Criteria(), 0);
@@ -95,10 +96,11 @@ public class PageMaker {
 	}
 	
 	public String makeQuery(int page) {
-		UriComponents uriComponents = UriComponentsBuilder.newInstance()
-									 .queryParam("page", page)
-									 .queryParam("perPageNum", cri.getPerPageNum())
-									 .build();
+		UriComponents uriComponents 
+				= UriComponentsBuilder.newInstance()
+				 .queryParam("page", page)
+				 .queryParam("perPageNum", cri.getPerPageNum())
+				 .build();
 		String query = uriComponents.toUriString();
 		return query;
 	}

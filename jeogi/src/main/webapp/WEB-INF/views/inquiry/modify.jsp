@@ -41,7 +41,7 @@
 <body>
     <h2>문의 수정</h2>
 
-    <form action="/inquiry/modify" method="post">
+    <form action="${path}/inquiry/modify" method="post">
         <input type="hidden" name="inquiry_id" value="${inquiry.inquiry_id}">
         <div>
             <label for="title">제목:</label>
@@ -59,8 +59,7 @@
             </select>
         </div>
         <div>
-            <input type="submit" value="수정 완료">
-            <a href="/inquiry/list">목록으로 돌아가기</a>
+           <input type="submit" value="수정 완료">
         </div>
     </form>
 </body>

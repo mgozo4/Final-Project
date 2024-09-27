@@ -34,20 +34,11 @@
     <hr/>
     <!-- 검색 폼 -->
     <form action="${path}/inquiry/list">
-        <select name="searchType">
-            <option value="n">---------------------------</option>
-            <option value="t">TITLE</option>
-            <option value="c">CONTENT</option>
-            <option value="u">USER</option>
-            <option value="tc">TITLE &amp; CONTENT</option>
-            <option value="tu">TITLE &amp; USER</option>
-            <option value="tcu">TITLE &amp; CONTENT &amp; USER</option>
-        </select>
         <input type="text" name="keyword" placeholder="검색할 키워드를 작성해주세요."/>
         <input type="submit" value="검색"/>
         <select name="perPageNum" onchange="this.form.submit();">
             <c:forEach var="i" begin="5" end="30" step="5">
-                <option value="${i}" ${i == perPageNum ? 'selected' : ''}>${i}개씩 보기</option>
+                <option value="${i}" ${i == pm.cri.perPageNum ? 'selected' : ''}>${i}개씩 보기 ${perPageNum }</option>
             </c:forEach>
         </select>
     </form>
@@ -83,6 +74,7 @@
                 </c:forEach>
 
                 <!-- 페이징 블럭 출력 -->
+                <div>${pm }</div>
                 <tr>
                     <th colspan="5">
                         <c:if test="${pm.first}">
@@ -92,7 +84,8 @@
                             <a href="${pm.makeQuery(pm.prevPage)}">[이전]</a>
                         </c:if>
                         <c:forEach var="i" begin="${pm.startPage}" end="${pm.endPage}">
-                            <a href="${pm.makeQuery(i)}">[${i}]</a>
+                            <a href="${pm.makeQuery(i)}">[${i}]
+                            </a>
                         </c:forEach>
                         <c:if test="${pm.next}">
                             <a href="${pm.makeQuery(pm.nextPage)}">[다음]</a>

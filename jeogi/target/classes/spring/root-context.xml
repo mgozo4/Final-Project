@@ -42,6 +42,22 @@
 	<!-- Implements Mapper Interface -->
 	<mybatis-spring:scan base-package="com.bitc.*.dao"/>
 	
+	<!-- mail support -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>	<!-- TLS : 587 , SSL : 465 -->
+		<property name="username" value="${google.username}"/>
+		<property name="password" value="${google.password}"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			</props>
+		</property>
+	</bean>
+	
 </beans>
 
 

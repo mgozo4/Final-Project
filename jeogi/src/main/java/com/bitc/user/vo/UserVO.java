@@ -1,6 +1,8 @@
 package com.bitc.user.vo;
 
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -18,5 +20,8 @@ public class UserVO {
 	private String u_addr_detail;
 	private String u_addr_post;
 	private String u_withdraw;
+	
+	// 권한 목록
+	private List<String> authList;
 	
 }

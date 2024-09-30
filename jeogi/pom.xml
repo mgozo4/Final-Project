@@ -12,6 +12,8 @@
 		<org.springframework-version>5.3.39</org.springframework-version>
 		<org.aspectj-version>1.9.22.1</org.aspectj-version>
 		<org.slf4j-version>2.0.16</org.slf4j-version>
+		<!-- 6.x.x jakarta ,  5.x.x. 하위는 javax-->
+		<security-version>5.8.14</security-version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -210,6 +212,33 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		<!-- mail 발송관련 library -->
+		
+		<!-- spring security library core, web, config -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${security-version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${security-version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${security-version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>${security-version}</version>
+		</dependency>
 		
 	</dependencies>
     <build>

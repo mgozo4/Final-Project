@@ -25,18 +25,6 @@
 			<a href="${path}/user/logout">로그아웃</a>
 		</c:otherwise>
 	</c:choose>
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script>
-		let msg = '${msg}';
-		if(msg != '') alert(msg);
-		
-		let expire = '${expire}';
-		if(expire != ''){
-			alert(expire);
-			location.href='${path}/user/logout';
-		}
-		
-	</script>
 </head>
 <body>
     <div class="sidebar">

@@ -29,7 +29,13 @@
                     <a class="nav-link" href="${path}/review/list">리뷰 목록</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${path}/inquiry/list">문의목록 ${path}/inquiry/list</a>
+                    <a class="nav-link" href="${path}/inquiry/list">문의목록</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="${path}/chat">문의채팅 </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="${path}/userChat">여기어때 회원 문의 채팅 </a>
                 </li>
             </ul>
         </div>
